@@ -113,8 +113,8 @@
 			children = (
 				42BCFBBF2B71590B00C0BCBD /* Supporting */,
 				42BCFB932B7158F200C0BCBD /* ViewController.swift */,
-				42BCFB952B7158F200C0BCBD /* Main.storyboard */,
 				42BCFBC02B71597E00C0BCBD /* MapViewController.swift */,
+				42BCFB952B7158F200C0BCBD /* Main.storyboard */,
 				42BCFB9D2B7158F500C0BCBD /* Info.plist */,
 			);
 			path = developing_v2;
