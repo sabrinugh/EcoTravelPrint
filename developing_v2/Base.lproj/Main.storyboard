@@ -40,6 +40,62 @@
             </objects>
             <point key="canvasLocation" x="117" y="4"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="2jU-ZK-pmM">
+            <objects>
+                <viewController id="Dva-pJ-N32" customClass="MapViewController" customModule="developing_v2" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ABe-Qe-IQg">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ozf-2i-1XL">
+                                <rect key="frame" x="42" y="59" width="75" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                <connections>
+                                    <action selector="OpenHomePage:" destination="Dva-pJ-N32" eventType="touchUpInside" id="neD-Do-yQ8"/>
+                                </connections>
+                            </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zde-SM-4mD" customClass="MapView">
+                                <rect key="frame" x="0.0" y="115" width="393" height="737"/>
+                                <connections>
+                                    <segue destination="0Nz-4Y-ZsT" kind="embed" id="N7S-6o-9HY"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GMI-nj-Z2V"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="zde-SM-4mD" firstAttribute="trailing" secondItem="GMI-nj-Z2V" secondAttribute="trailing" id="FaN-rp-bPS"/>
+                            <constraint firstItem="zde-SM-4mD" firstAttribute="top" secondItem="Ozf-2i-1XL" secondAttribute="bottom" constant="21" id="IGt-9g-FCv"/>
+                            <constraint firstItem="zde-SM-4mD" firstAttribute="leading" secondItem="GMI-nj-Z2V" secondAttribute="leading" id="Ogn-Wc-T9S"/>
+                            <constraint firstItem="GMI-nj-Z2V" firstAttribute="trailing" secondItem="Ozf-2i-1XL" secondAttribute="trailing" constant="276" id="WUd-vG-LpC"/>
+                            <constraint firstItem="Ozf-2i-1XL" firstAttribute="leading" secondItem="GMI-nj-Z2V" secondAttribute="leading" constant="42" id="bUa-RF-Wkv"/>
+                            <constraint firstAttribute="bottom" secondItem="zde-SM-4mD" secondAttribute="bottom" id="cAl-Vs-waF"/>
+                            <constraint firstItem="zde-SM-4mD" firstAttribute="top" secondItem="Ozf-2i-1XL" secondAttribute="bottom" constant="21" id="fZ0-Ai-ncL"/>
+                            <constraint firstItem="Ozf-2i-1XL" firstAttribute="top" secondItem="GMI-nj-Z2V" secondAttribute="top" id="mZ2-ga-b2S"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BtQ-cN-DGe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1029.7709923664122" y="3.5211267605633805"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="xZF-dk-NKr">
+            <objects>
+                <viewController id="0Nz-4Y-ZsT" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8qy-Cl-4SQ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="737"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eyv-2t-219" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1815" y="4"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
