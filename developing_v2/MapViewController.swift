@@ -12,7 +12,7 @@ import GooglePlaces
 class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
-        self.openMap();
+        openMap();
         
     }
     

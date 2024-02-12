@@ -8,25 +8,23 @@
 import UIKit
 import GoogleMaps
 
-class MainViewController: UIViewController {
-    //var mapView: GMSMapView!
-    
+class MainViewController: UIViewController {    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadMapView()
+        //loadMapView()
     }
     
     @IBOutlet weak var mapViewSub: UIView!
     /* Create the map View and add the Google Map into the UIView element. Load in any additional buttons onto the map view as self.view.addSubview() */
-    private func loadMapView() {
+    /*private func loadMapView() {
         let options = GMSMapViewOptions()
         options.camera = GMSCameraPosition.camera(withLatitude: 53.34, longitude: 6.20, zoom: 6.0)
         options.frame = mapViewSub.bounds
 
         let mapView = GMSMapView(options: options)
-        self.view.addSubview(mapView)
-    }
+        view.addSubview(mapView)
+    }*/
     
     private func loadnavBar() {
     }
