@@ -33,9 +33,11 @@ class MainViewController: UIViewController {
         
     }
     
-    @IBOutlet weak var testButton: UIButton!
-    private func loadTestButton() {
     
+    @IBAction func testButton(_ sender: Any) {
+        let vc = MapViewController()
+        // vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil);
     }
     
 

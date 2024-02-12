@@ -9,26 +9,18 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--MapView-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="developing_v2" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBP-Gm-9a3" customClass="testButton">
-                                <rect key="frame" x="50" y="103" width="75" height="35"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Is-5o-Vsy">
+                                <rect key="frame" x="0.0" y="122" width="393" height="696"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="JBP-Gm-9a3" secondAttribute="height" multiplier="15:7" id="skN-dq-r3u"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Button"/>
-                            </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Is-5o-Vsy">
-                                <rect key="frame" x="0.0" y="165" width="393" height="687"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="8Is-5o-Vsy" secondAttribute="height" multiplier="16:33" id="ds7-gz-Jqi"/>
+                                    <constraint firstAttribute="width" secondItem="8Is-5o-Vsy" secondAttribute="height" multiplier="393:730" id="jhV-rQ-JBz"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="u0K-S3-x6T" kind="embed" id="wCq-Sw-dcC"/>
@@ -38,20 +30,27 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="JBP-Gm-9a3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="ACd-JT-Lqh"/>
-                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="top" secondItem="JBP-Gm-9a3" secondAttribute="bottom" constant="27" id="Cw0-ng-MXY"/>
-                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="top" secondItem="JBP-Gm-9a3" secondAttribute="bottom" constant="61" id="EaR-OU-apJ"/>
-                            <constraint firstItem="JBP-Gm-9a3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="IpJ-v1-saa"/>
-                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Iv9-ev-RuF"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JBP-Gm-9a3" secondAttribute="trailing" constant="268" id="WCb-JQ-Oy4"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="8Is-5o-Vsy" secondAttribute="bottom" id="tHZ-Lr-pZ0"/>
-                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xBm-Tt-C7x"/>
+                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2VF-Eu-10p"/>
+                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="19" id="Gv8-U6-KU6"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="8Is-5o-Vsy" secondAttribute="bottom" id="bQe-ku-zXC"/>
+                            <constraint firstItem="8Is-5o-Vsy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kkE-Le-Dbb"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="kCg-RL-ckX"/>
+                    <navigationItem key="navigationItem" title="MapView" id="TsR-Ac-nfe">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="zqj-Fb-aMr">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="hfZ-vw-jYI">
+                                <rect key="frame" x="16" y="4.6666666666666679" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Test"/>
+                                <connections>
+                                    <action selector="testButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5ty-ng-Zyh"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapViewSub" destination="8Is-5o-Vsy" id="pMW-xD-ixf"/>
-                        <outlet property="testButton" destination="JBP-Gm-9a3" id="CC5-2c-MPb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -81,7 +80,7 @@
             <objects>
                 <viewController id="u0K-S3-x6T" customClass="MapViewController" customModule="developing_v2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2XQ-V3-nUv">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="687"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="696"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="fh0-9P-2qI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -89,7 +88,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y5U-sB-ZLL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1756" y="4"/>
+            <point key="canvasLocation" x="1947" y="4"/>
         </scene>
     </scenes>
     <resources>
