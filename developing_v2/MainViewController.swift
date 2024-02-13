@@ -8,23 +8,24 @@
 import UIKit
 import GoogleMaps
 
-class MainViewController: UIViewController {    
+class MainViewController: UIViewController, CLLocationManagerDelegate {
+
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        //loadMapView()
+        /*
+        locationManager.delegate = self;
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.requestLocation();
+        } else {
+            locationManager.requestWhenInUseAuthorization();
+        }
+        */
     }
     
     @IBOutlet weak var mapViewSub: UIView!
-    /* Create the map View and add the Google Map into the UIView element. Load in any additional buttons onto the map view as self.view.addSubview() */
-    /*private func loadMapView() {
-        let options = GMSMapViewOptions()
-        options.camera = GMSCameraPosition.camera(withLatitude: 53.34, longitude: 6.20, zoom: 6.0)
-        options.frame = mapViewSub.bounds
-
-        let mapView = GMSMapView(options: options)
-        view.addSubview(mapView)
-    }*/
+    
     
     private func loadnavBar() {
     }
@@ -33,10 +34,9 @@ class MainViewController: UIViewController {
         
     }
     
-    
     @IBAction func testButton(_ sender: Any) {
         let vc = MapViewController()
-        // vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true, completion: nil);
     }
     
