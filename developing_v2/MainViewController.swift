@@ -7,10 +7,11 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
-
-    let locationManager = CLLocationManager()
+    
+    @IBOutlet weak var mapViewSub: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +24,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
         }
         */
     }
-    
-    @IBOutlet weak var mapViewSub: UIView!
-    
     
     private func loadnavBar() {
     }
