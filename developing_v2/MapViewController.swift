@@ -17,6 +17,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
     var preciseLocationZoomLevel: Float = 15.0
     var approximateLocationZoomLevel: Float = 10.0
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         initLocationManager();
