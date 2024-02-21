@@ -8,6 +8,7 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import CoreLocation
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -15,29 +16,6 @@ class MainViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        locationManager.delegate = self;
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.requestLocation();
-        } else {
-            locationManager.requestWhenInUseAuthorization();
-        }
-        */
     }
-    
-    private func loadnavBar() {
-    }
-    
-    private func loadSearchBar() {
-        
-    }
-    
-    @IBAction func testButton(_ sender: Any) {
-        let vc = MapViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil);
-    }
-    
-
 }
 

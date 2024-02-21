@@ -8,25 +8,31 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate{
-    var locationManager: CLLocationManager!
-    var currentLocation: CLLocation?
+class MapViewController: UIViewController, CLLocationManagerDelegate, NetworkServiceDelegate {
+    
     var mapView : GMSMapView!
     var placesClient: GMSPlacesClient!
     var preciseLocationZoomLevel: Float = 15.0
     var approximateLocationZoomLevel: Float = 10.0
     
     
+    var sourceCoordinates = CLLocationCoordinate2D()
+    var destinationCoordinates = CLLocationCoordinate2D()
+    var didRequestRoute : Bool = false
+    var destinationLocationRequest : Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        initLocationManager();
-        openMap();
         
+        // Init the location manager
+        initLocationManager()
+        openMap()
     }
     
-    private func initLocationManager() {
+    public func initLocationManager() {
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -47,29 +53,41 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         options.frame = self.view.bounds
 
         mapView = GMSMapView(options: options)
-        mapView.settings.myLocationButton = true // Button to display current location
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
+        mapView.settings.myLocationButton = true // Button to display current location
         self.view.addSubview(mapView)
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last! // FInd last known location
-        print("Location: \(location)") // print to console
-        
-        // Based off authorisation settings, change zoom view
-        let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
-        
-        if mapView.isHidden {
-            mapView.isHidden = false
-            mapView.camera = camera
-        } else {
-            mapView.animate(to: camera)
+    // Check protocol for result of route request
+    func didRouteRequest(result: String) {
+        var temp = result
+        temp.removeLast()
+        let minutes = Int(temp)! / 60
+        print(minutes)
+        DispatchQueue.main.async() {
+            print("It worked")
         }
     }
     
+    // Setting variables for the location settings and thereby routes
+    var locationManager = CLLocationManager()
     
+    func getLocation () {
+        let manager = CLLocationManager()
+        locationManager.delegate = self
+        // If permissions are given to use device location
+        if (manager.authorizationStatus == .authorizedWhenInUse)
+        || (manager.authorizationStatus == .authorizedAlways) {
+            print("Location authorised")
+            locationManager.startUpdatingLocation()
+        }else{
+            print("Location not authorised")
+            locationManager.requestWhenInUseAuthorization() // Ask user for permission
+        }
+    }
+    
+    var placeName = ""
     // Deal with the permissions for accessing the user's current location
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let accuracy = manager.accuracyAuthorization
@@ -98,9 +116,98 @@ class MapViewController: UIViewController, CLLocationManagerDelegate{
         } // end switch
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationManager.delegate = nil
+        locationManager.stopUpdatingLocation()
+        let location = locations.first!
+    
+        // Based off authorisation settings, change zoom view
+        let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
+        
+        if mapView.isHidden {
+            mapView.isHidden = false
+            mapView.camera = camera
+        } else {
+            mapView.animate(to: camera)
+        }
+        
+        sourceCoordinates =  CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        if didRequestRoute {
+            let calls = RouteRequests()
+            calls.delegate = self
+            //need to get new source before getting distance to destination
+            if destinationLocationRequest {
+                calls.postRoute(startCoordinates: sourceCoordinates, destinationCoordinates: destinationCoordinates)
+            }
+        }
+    }
+    
     // Handle location manager errors.
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
     }
+    
+    // Get coordinates from English written address
+    func getCoordinates(for address: String, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            guard let placemark = placemarks?.first, let location = placemark.location else {
+                completion(nil)
+                return
+            }
+            completion(location.coordinate)
+        }
+    }
+    
+    // Get coordinates from word address
+    var placeID = ""
+    func getLatLongFromPlaceId () {
+        // Specify the place data types to return.
+        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt64(GMSPlaceField.coordinate.rawValue) |
+                                                  UInt64(GMSPlaceField.placeID.rawValue))
+        
+        placesClient?.fetchPlace(fromPlaceID: placeID, placeFields: fields, sessionToken: nil, callback: {
+          (place: GMSPlace?, error: Error?) in
+          if let error = error {
+            print("An error occurred: \(error.localizedDescription)")
+            return
+          }
+          if let place = place {
+            // self.lblName?.text = place.name
+              print("The selected place coordinate is: \(place.coordinate)")
+              self.destinationCoordinates = place.coordinate
+              self.destinationLocationRequest = true
+          }else{
+              print("Already here");
+          }
+        })
+    }
+}
+
+extension MapViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Place name: \(place.name ?? "placename")")
+        print("Place ID: \(place.placeID ?? "")")
+        print("Place attributions: \(String(describing: place.attributions))")
+        self.placeID = place.placeID ?? "nil"
+        self.getLatLongFromPlaceId()
+        self.placeName = (place.name ?? "")
+        /*DispatchQueue.main.async() {
+            self.destinationLabel.text = place.name ?? ""
+        }*/
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Fail")
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        print("Cancelled")
+    }
+    
+    
 }
