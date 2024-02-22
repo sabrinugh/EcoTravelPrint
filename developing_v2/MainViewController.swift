@@ -11,9 +11,7 @@ import GooglePlaces
 import CoreLocation
 
 class MainViewController: UIViewController, CLLocationManagerDelegate {
-    
-    @IBOutlet weak var mapViewSub: UIView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		420126872B7675E400A4E6F9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420126862B7675E400A4E6F9 /* MainViewController.swift */; };
 		422068DA2B85233000AD812D /* RouteRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422068D92B85233000AD812D /* RouteRequests.swift */; };
-		42A259972B8162770034A4AE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 42A259962B8162770034A4AE /* Alamofire */; };
 		42BCFB902B7158F200C0BCBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BCFB8F2B7158F200C0BCBD /* AppDelegate.swift */; };
 		42BCFB922B7158F200C0BCBD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BCFB912B7158F200C0BCBD /* SceneDelegate.swift */; };
 		42BCFB972B7158F200C0BCBD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42BCFB952B7158F200C0BCBD /* Main.storyboard */; };
@@ -23,6 +22,10 @@
 		42CB405C2B7CDCD000BC2B05 /* GoogleMapsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 42CB405B2B7CDCD000BC2B05 /* GoogleMapsCore */; };
 		42CB405E2B7CDCD000BC2B05 /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = 42CB405D2B7CDCD000BC2B05 /* GoogleMapsM4B */; };
 		42CB40612B7CDCD900BC2B05 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 42CB40602B7CDCD900BC2B05 /* GooglePlaces */; };
+		42F7E7B22B8647D8003186FB /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 42F7E7B12B8647D8003186FB /* SQLite */; };
+		42F7E7BB2B87D2C8003186FB /* userModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7E7BA2B87D2C8003186FB /* userModel.swift */; };
+		42F7E7BD2B87D36C003186FB /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7E7BC2B87D36C003186FB /* SQLiteDatabase.swift */; };
+		42F7E7BF2B87D41A003186FB /* SQLiteCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7E7BE2B87D41A003186FB /* SQLiteCommands.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		42BCFBB02B7158F500C0BCBD /* developing_v2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v2UITests.swift; sourceTree = "<group>"; };
 		42BCFBB22B7158F500C0BCBD /* developing_v2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v2UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		42BCFBC02B71597E00C0BCBD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		42F7E7BA2B87D2C8003186FB /* userModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userModel.swift; sourceTree = "<group>"; };
+		42F7E7BC2B87D36C003186FB /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		42F7E7BE2B87D41A003186FB /* SQLiteCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCommands.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +70,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42F7E7B22B8647D8003186FB /* SQLite in Frameworks */,
 				42CB40582B7CDCD000BC2B05 /* GoogleMaps in Frameworks */,
 				42CB405C2B7CDCD000BC2B05 /* GoogleMapsCore in Frameworks */,
 				42CB405E2B7CDCD000BC2B05 /* GoogleMapsM4B in Frameworks */,
-				42A259972B8162770034A4AE /* Alamofire in Frameworks */,
 				42CB40612B7CDCD900BC2B05 /* GooglePlaces in Frameworks */,
 				42CB405A2B7CDCD000BC2B05 /* GoogleMapsBase in Frameworks */,
 			);
@@ -142,12 +148,31 @@
 		42BCFBBF2B71590B00C0BCBD /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
+				42F7E7B92B87D2BA003186FB /* SQLite */,
+				42F7E7B32B86A6BB003186FB /* Assets */,
 				42BCFB8F2B7158F200C0BCBD /* AppDelegate.swift */,
 				42BCFB912B7158F200C0BCBD /* SceneDelegate.swift */,
 				42BCFB982B7158F500C0BCBD /* Assets.xcassets */,
 				422068D92B85233000AD812D /* RouteRequests.swift */,
 			);
 			path = Supporting;
+			sourceTree = "<group>";
+		};
+		42F7E7B32B86A6BB003186FB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		42F7E7B92B87D2BA003186FB /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				42F7E7BA2B87D2C8003186FB /* userModel.swift */,
+				42F7E7BC2B87D36C003186FB /* SQLiteDatabase.swift */,
+				42F7E7BE2B87D41A003186FB /* SQLiteCommands.swift */,
+			);
+			path = SQLite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,7 +197,7 @@
 				42CB405B2B7CDCD000BC2B05 /* GoogleMapsCore */,
 				42CB405D2B7CDCD000BC2B05 /* GoogleMapsM4B */,
 				42CB40602B7CDCD900BC2B05 /* GooglePlaces */,
-				42A259962B8162770034A4AE /* Alamofire */,
+				42F7E7B12B8647D8003186FB /* SQLite */,
 			);
 			productName = developing_v2;
 			productReference = 42BCFB8C2B7158F200C0BCBD /* developing_v2.app */;
@@ -249,7 +274,7 @@
 			packageReferences = (
 				42CB40562B7CDCD000BC2B05 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				42CB405F2B7CDCD900BC2B05 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
-				42A259952B8162770034A4AE /* XCRemoteSwiftPackageReference "Alamofire" */,
+				42F7E7B02B8647D8003186FB /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
 			productRefGroup = 42BCFB8D2B7158F200C0BCBD /* Products */;
 			projectDirPath = "";
@@ -296,8 +321,11 @@
 				42BCFB902B7158F200C0BCBD /* AppDelegate.swift in Sources */,
 				422068DA2B85233000AD812D /* RouteRequests.swift in Sources */,
 				42BCFB922B7158F200C0BCBD /* SceneDelegate.swift in Sources */,
+				42F7E7BF2B87D41A003186FB /* SQLiteCommands.swift in Sources */,
+				42F7E7BB2B87D2C8003186FB /* userModel.swift in Sources */,
 				42BCFBC12B71597E00C0BCBD /* MapViewController.swift in Sources */,
 				420126872B7675E400A4E6F9 /* MainViewController.swift in Sources */,
+				42F7E7BD2B87D36C003186FB /* SQLiteDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,14 +676,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		42A259952B8162770034A4AE /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.8.1;
-			};
-		};
 		42CB40562B7CDCD000BC2B05 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
@@ -672,14 +692,17 @@
 				minimumVersion = 8.3.0;
 			};
 		};
+		42F7E7B02B8647D8003186FB /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		42A259962B8162770034A4AE /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 42A259952B8162770034A4AE /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
 		42CB40572B7CDCD000BC2B05 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 42CB40562B7CDCD000BC2B05 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
@@ -704,6 +727,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 42CB405F2B7CDCD900BC2B05 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
 			productName = GooglePlaces;
+		};
+		42F7E7B12B8647D8003186FB /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42F7E7B02B8647D8003186FB /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

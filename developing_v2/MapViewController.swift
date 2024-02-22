@@ -31,7 +31,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, NetworkSer
         initLocationManager()
         openMap()
     }
-    
+    // MARK: Set up the Core Location manager
     public func initLocationManager() {
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -41,10 +41,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, NetworkSer
         locationManager.delegate = self
     }
     
-    /*
-    Instantiating the map options and setting up the map view onto the page
-    Directly setting the default camera position to Dublin City Centre via coordinates
-    */
+    // MARK: Instantiating the map options and setting up the map view onto the page, directly setting the default camera position to Dublin City Centre via coordinates
     public func openMap() {
         let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
         let options = GMSMapViewOptions()
@@ -187,6 +184,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, NetworkSer
     }
 }
 
+// MARK: Autocomplete the written address when searching up for a route
 extension MapViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         print("Place name: \(place.name ?? "placename")")
