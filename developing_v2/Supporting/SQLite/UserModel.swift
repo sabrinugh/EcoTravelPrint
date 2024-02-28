@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct userModel {
+struct UserModel {
+    let id : Int
     let email : String
     let firstName : String
     let lastName : String
+    let password : String
     let photo : Data
 }

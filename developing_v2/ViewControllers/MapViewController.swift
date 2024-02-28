@@ -25,7 +25,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, NetworkSer
     
     
     override func viewDidLoad() {
-        super.viewDidLoad();
+        super.viewDidLoad()
         
         // Init the location manager
         initLocationManager()

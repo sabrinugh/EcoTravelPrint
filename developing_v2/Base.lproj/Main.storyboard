@@ -159,20 +159,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jwL-ac-rme">
-                                <rect key="frame" x="20" y="272" width="353" height="122"/>
+                                <rect key="frame" x="20" y="272" width="353" height="166"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IFy-fR-uWj">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rxi-xo-Il5">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Sv-7M-9uz">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IFy-fR-uWj">
                                         <rect key="frame" x="0.0" y="44" width="353" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="firstNameInput:" destination="xCJ-2u-zSr" eventType="editingDidEnd" id="Cuq-Yg-T0N"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Sv-7M-9uz">
+                                        <rect key="frame" x="0.0" y="88" width="353" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                        <connections>
+                                            <action selector="lastNameInput:" destination="xCJ-2u-zSr" eventType="editingDidEnd" id="j2n-zD-9pq"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mlZ-sh-PA7">
-                                        <rect key="frame" x="0.0" y="88" width="353" height="34"/>
+                                        <rect key="frame" x="0.0" y="132" width="353" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -191,6 +202,9 @@
                                 <color key="tintColor" red="0.52782518430000003" green="0.68063346629999999" blue="0.51192513569999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Save"/>
+                                <connections>
+                                    <action selector="saveUser:" destination="xCJ-2u-zSr" eventType="touchUpInside" id="lLd-np-nrg"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6W-Gd-RTn">
                                 <rect key="frame" x="100" y="459.66666666666669" width="76" height="34.333333333333314"/>
@@ -221,7 +235,12 @@
                     <navigationItem key="navigationItem" title="Collect Data" id="V2M-uj-ask"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gD1-ML-fly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="xVw-dG-QHE"/>
+                <exit id="xCJ-2u-zSr" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="xVw-dG-QHE">
+                    <connections>
+                        <action selector="uploadPhoto:" destination="xCJ-2u-zSr" id="3CW-YJ-44v"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-367.17557251908397" y="1474.6478873239437"/>
         </scene>
