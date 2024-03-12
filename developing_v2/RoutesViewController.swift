@@ -1,76 +1,90 @@
 //
-//  MapViewController.swift
+//  RoutesViewController.swift
 //  developing_v2
 //
-//  Created by Sabrina Boc on 05/02/2024.
+//  Created by Sabrina Boc on 06/03/2024.
 //
 
 import UIKit
-import GoogleMaps
 import GooglePlaces
+import GoogleMaps
 import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-// ass NetworkServiceDelegate into the class
-class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate, UITextFieldDelegate {
-    var mapView: GMSMapView!
+class RoutesViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate {
+    
+    @IBOutlet weak var mapView: UIView!
+    
     var locationManager: CLLocationManager!
-    var currentLocation: CLLocation!
-    var pickupCoordinate: CLLocationCoordinate2D!
-    var originCoords: CLLocationCoordinate2D!
-    var destinationCoords: CLLocationCoordinate2D!
-    var transferPolyline: String?
-    var polylineArray: [GMSPolyline] = []
-    var geocoder: GMSGeocoder! // Convert written location to long-lat coords
     var permissionFlag: Bool!
+    var currentLocation: CLLocation!
+    var googleMaps: GMSMapView!
+    var polylineArray: [GMSPolyline] = []
     
+    var transferPolyline: String!
+    var pickupCoordinate: CLLocationCoordinate2D!
+    var geocoder: GMSGeocoder!
+    var city: String!
+    var address: String!
     
-    @IBOutlet weak var sourceTextField: UITextField!
-    @IBOutlet weak var destinationTextField: UITextField!
+    var originCoords : CLLocationCoordinate2D!
+    var destinationCoords : CLLocationCoordinate2D!
     
     var preciseLocationZoomLevel: Float = 15.0
     var approximateLocationZoomLevel: Float = 10.0
     
-    
     override func viewDidLoad() {
-        super.viewDidLoad();
-        
-        // Initialise the location manager
+        super.viewDidLoad()
+        city = ""
+        address = ""
+        geocoder = GMSGeocoder()
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 50
+        locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-            }
+        
+        // Hard coding test coordinates
+        //var originCoords: CLLocationCoordinate2D!
+        //var destinationCoords: CLLocationCoordinate2D!
+        let lat1: Double = 53.353600
+        let long1: Double = -6.278255
+        let lat2: Double = 53.348734
+        let long2: Double = -6.286066
+        let originCoords = CLLocationCoordinate2D(latitude: lat1, longitude: long1)
+        let destinationCoords = CLLocationCoordinate2D(latitude: lat2, longitude: long2)
+        
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if locationManager.authorizationStatus == .authorizedAlways || locationManager.authorizationStatus == .authorizedWhenInUse{
             self.permissionFlag = true
-            openMap()
+            googleMaps = openMap()
+            view.addSubview(googleMaps)
             
         }else{
-           self.permissionFlag = false
-            openMap()
+            self.permissionFlag = false
         }
     }
     
-    // MARK: Instantiating the map options and setting up the map view onto the page. Directly setting the default camera position to Dublin City Centre via coordinates
-    public func openMap() {
+    private func openMap() -> GMSMapView {
         let zoomLevel = locationManager.accuracyAuthorization == .fullAccuracy ? preciseLocationZoomLevel : approximateLocationZoomLevel
         let options = GMSMapViewOptions()
         // Set defauly coordinates to Co. Dublin, Ireland
         options.camera = GMSCameraPosition.camera(withLatitude: 53.3498, longitude: -6.2603, zoom: zoomLevel)
         options.frame = self.view.bounds
         
-        mapView = GMSMapView(options: options)
-        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true // Button to display current location
-        self.view.addSubview(mapView)
+        googleMaps = GMSMapView(options: options)
+        googleMaps.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        googleMaps.isMyLocationEnabled = true
+        googleMaps.settings.myLocationButton = true // Button to display current location
+        
+        return googleMaps
     }
+    
     
     func getLocation () {
         let manager = CLLocationManager()
@@ -80,7 +94,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
             || (manager.authorizationStatus == .authorizedAlways) {
             print("Location authorised")
             locationManager.startUpdatingLocation()
-        }else{
+        } else{
             print("Location not authorised")
             locationManager.requestWhenInUseAuthorization() // Ask user for permission
         }
@@ -121,12 +135,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
         locationManager.stopUpdatingLocation()
         print("Error: \(error)")
     }
-    
-    
-    @objc func placeApiVC(){
-        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoutesViewController") as! RoutesViewController
-        self.present(VC, animated: true)
-    }
 
     
     // MARK: Drawing the requested route between the origin and destination locations
@@ -154,10 +162,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
                                 polyline.strokeColor = UIColor.systemPink
                                 polyline.strokeWidth = 5
                                 self.transferPolyline = points // SAVE THESE POINTS THEY ARE ENCODED LAT LONGS OF SUGGESTED ROUTES
-                                if self.mapView != nil
+                                if self.googleMaps != nil
                                 {
                                     let bounds = GMSCoordinateBounds(path: path!)
-                                    self.mapView!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))
+                                    self.googleMaps!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))
                                 }
                             }else{
                                 polyline.strokeColor = UIColor.lightGray
@@ -165,7 +173,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
                             }
                             
                             self.polylineArray.append(polyline)
-                            polyline.map = self.mapView
+                            polyline.map = self.googleMaps
                         }
                         
                     }catch{
@@ -200,10 +208,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
                             polylineArray[i].strokeWidth = 5
                             polylineArray[i].map = mapView
                             self.transferPolyline = polylineArray[i].path?.encodedPath()
-                            if self.mapView != nil
+                            if self.googleMaps != nil
                             {
                                 let bounds = GMSCoordinateBounds(path: polylineArray[i].path!)
-                                self.mapView!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))
+                                self.googleMaps!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 50.0))
                             }
                             print("TransferPolyline => \(transferPolyline ?? "nil")")
                         }
@@ -227,20 +235,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
         if pickupCoordinate != nil{
             
                 let camera = GMSCameraPosition.camera(withLatitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude, zoom: 15.0)
-                mapView.camera = camera
-            mapView.mapType = .normal
+            googleMaps.camera = camera
+            googleMaps.mapType = .normal
             geocoder.reverseGeocodeCoordinate(CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), completionHandler: {
                 response, error in
                 if error == nil{
                     if let resultAdd = response?.firstResult(){
-                        self.mapView.delegate = self
+                        self.googleMaps.delegate = self
                         let lines = resultAdd.lines! as [String]
                         print("ADDRESS => \(lines.joined(separator: "\n"))")
                         let marker = GMSMarker()
                         marker.position = CLLocationCoordinate2D(latitude: self.currentLocation.coordinate.latitude, longitude: self.currentLocation.coordinate.longitude)
                         marker.snippet = lines.joined(separator: "\n")
                         marker.title = "\(resultAdd.locality ?? "Unavailable")"
-                        marker.map = self.mapView
+                        marker.map = self.googleMaps
                     }else{
                         print("ERROR_PLEASE_TRY_AGAIN_LATER")
                     }
@@ -251,54 +259,4 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, GMSMapView
            print("CURRENT_LOCATION_OBJECT_IS_NIL")
         }
     }
-    
-    @objc func autocompleteClicked(_ sender: UITextField) {
-        let autocompleteController = GMSAutocompleteViewController()
-        autocompleteController.delegate = self
-
-        // Specify the place data types to return.
-        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt64(UInt(GMSPlaceField.name.rawValue) | UInt(GMSPlaceField.placeID.rawValue)))
-        autocompleteController.placeFields = fields
-
-        // Specify a filter for the autosearch - maybe add in the locality?
-        let filter = GMSAutocompleteFilter()
-        autocompleteController.autocompleteFilter = filter
-
-        // Display the autocomplete view controller.
-        present(autocompleteController, animated: true, completion: nil)
-      }
-    
-    
-    @IBAction func insertOrigin(_ sender: Any) {
-        sourceTextField.addTarget(self, action: #selector(autocompleteClicked), for: .touchUpInside)
-        self.view.addSubview(sourceTextField)
-    }
-    func makeButton() {
-        let btnLaunchAc = UIButton(frame: CGRect(x: 5, y: 150, width: 300, height: 35))
-        btnLaunchAc.backgroundColor = .blue
-        btnLaunchAc.setTitle("Launch autocomplete", for: .normal)
-        btnLaunchAc.addTarget(self, action: #selector(autocompleteClicked), for: .touchUpInside)
-        self.view.addSubview(btnLaunchAc)
-      }
-}
-
-extension MapViewController: GMSAutocompleteViewControllerDelegate {
-
-  // Handle the user's selection.
-  func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-      print("Place name: \(String(describing: place.name))")
-      print("Place ID: \(String(describing: place.placeID))")
-      print("Place attributions: \(String(describing: place.attributions))")
-    dismiss(animated: true, completion: nil)
-  }
-
-  func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-    // TODO: handle the error.
-    print("Error: ", error.localizedDescription)
-  }
-
-  // User canceled the operation.
-  func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-    dismiss(animated: true, completion: nil)
-  }
 }
