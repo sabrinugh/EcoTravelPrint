@@ -16,6 +16,15 @@
 		42815C1C2BB096020099782C /* developing_v3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C1B2BB096020099782C /* developing_v3Tests.swift */; };
 		42815C262BB096020099782C /* developing_v3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C252BB096020099782C /* developing_v3UITests.swift */; };
 		42815C282BB096020099782C /* developing_v3UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C272BB096020099782C /* developing_v3UITestsLaunchTests.swift */; };
+		42815C362BB57C530099782C /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C352BB57C530099782C /* GoogleMaps */; };
+		42815C382BB57C530099782C /* GoogleMapsBase in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C372BB57C530099782C /* GoogleMapsBase */; };
+		42815C3A2BB57C530099782C /* GoogleMapsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C392BB57C530099782C /* GoogleMapsCore */; };
+		42815C3C2BB57C530099782C /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C3B2BB57C530099782C /* GoogleMapsM4B */; };
+		42815C442BB57C930099782C /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C432BB57C930099782C /* GooglePlaces */; };
+		42815C472BB57CA00099782C /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C462BB57CA00099782C /* SwiftyJSON */; };
+		42C906D62BBC54E000031125 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C906D52BBC54E000031125 /* MainViewController.swift */; };
+		42E30A3C2BB7446B007C56BF /* RoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E30A3B2BB7446B007C56BF /* RoutesViewController.swift */; };
+		42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 42E30A3E2BB74580007C56BF /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +58,8 @@
 		42815C212BB096020099782C /* developing_v3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = developing_v3UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42815C252BB096020099782C /* developing_v3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v3UITests.swift; sourceTree = "<group>"; };
 		42815C272BB096020099782C /* developing_v3UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v3UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		42C906D52BBC54E000031125 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		42E30A3B2BB7446B007C56BF /* RoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +67,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42815C472BB57CA00099782C /* SwiftyJSON in Frameworks */,
+				42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */,
+				42815C442BB57C930099782C /* GooglePlaces in Frameworks */,
+				42815C362BB57C530099782C /* GoogleMaps in Frameworks */,
+				42815C3A2BB57C530099782C /* GoogleMapsCore in Frameworks */,
+				42815C3C2BB57C530099782C /* GoogleMapsM4B in Frameworks */,
+				42815C382BB57C530099782C /* GoogleMapsBase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,12 +117,11 @@
 		42815C032BB096000099782C /* developing_v3 */ = {
 			isa = PBXGroup;
 			children = (
-				42815C042BB096000099782C /* AppDelegate.swift */,
-				42815C062BB096000099782C /* SceneDelegate.swift */,
+				42C906D42BBC540800031125 /* Supporting */,
+				42C906D52BBC54E000031125 /* MainViewController.swift */,
 				42815C082BB096000099782C /* ViewController.swift */,
+				42E30A3B2BB7446B007C56BF /* RoutesViewController.swift */,
 				42815C0A2BB096000099782C /* Main.storyboard */,
-				42815C0D2BB096020099782C /* Assets.xcassets */,
-				42815C0F2BB096020099782C /* LaunchScreen.storyboard */,
 				42815C122BB096020099782C /* Info.plist */,
 			);
 			path = developing_v3;
@@ -127,6 +144,17 @@
 			path = developing_v3UITests;
 			sourceTree = "<group>";
 		};
+		42C906D42BBC540800031125 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				42815C0D2BB096020099782C /* Assets.xcassets */,
+				42815C042BB096000099782C /* AppDelegate.swift */,
+				42815C062BB096000099782C /* SceneDelegate.swift */,
+				42815C0F2BB096020099782C /* LaunchScreen.storyboard */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +171,15 @@
 			dependencies = (
 			);
 			name = developing_v3;
+			packageProductDependencies = (
+				42815C352BB57C530099782C /* GoogleMaps */,
+				42815C372BB57C530099782C /* GoogleMapsBase */,
+				42815C392BB57C530099782C /* GoogleMapsCore */,
+				42815C3B2BB57C530099782C /* GoogleMapsM4B */,
+				42815C432BB57C930099782C /* GooglePlaces */,
+				42815C462BB57CA00099782C /* SwiftyJSON */,
+				42E30A3E2BB74580007C56BF /* Alamofire */,
+			);
 			productName = developing_v3;
 			productReference = 42815C012BB096000099782C /* developing_v3.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +252,12 @@
 				Base,
 			);
 			mainGroup = 42815BF82BB096000099782C;
+			packageReferences = (
+				42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+				42815C422BB57C930099782C /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+				42815C452BB57CA00099782C /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				42E30A3D2BB74580007C56BF /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 42815C022BB096000099782C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -260,7 +303,9 @@
 			files = (
 				42815C092BB096000099782C /* ViewController.swift in Sources */,
 				42815C052BB096000099782C /* AppDelegate.swift in Sources */,
+				42E30A3C2BB7446B007C56BF /* RoutesViewController.swift in Sources */,
 				42815C072BB096000099782C /* SceneDelegate.swift in Sources */,
+				42C906D62BBC54E000031125 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +652,79 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.4.0;
+			};
+		};
+		42815C422BB57C930099782C /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.0;
+			};
+		};
+		42815C452BB57CA00099782C /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+		42E30A3D2BB74580007C56BF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		42815C352BB57C530099782C /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
+		};
+		42815C372BB57C530099782C /* GoogleMapsBase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMapsBase;
+		};
+		42815C392BB57C530099782C /* GoogleMapsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMapsCore;
+		};
+		42815C3B2BB57C530099782C /* GoogleMapsM4B */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C342BB57C530099782C /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMapsM4B;
+		};
+		42815C432BB57C930099782C /* GooglePlaces */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C422BB57C930099782C /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlaces;
+		};
+		42815C462BB57CA00099782C /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42815C452BB57CA00099782C /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		42E30A3E2BB74580007C56BF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42E30A3D2BB74580007C56BF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 42815BF92BB096000099782C /* Project object */;
 }
