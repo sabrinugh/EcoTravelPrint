@@ -13,25 +13,45 @@ import Alamofire
 import SwiftyJSON
 
 class RoutesViewController: ViewController {
-//    var originCoordinate: CLLocationCoordinate2D?
-//    var destinationCoordinate: CLLocationCoordinate2D?
+
+    @IBOutlet weak var TextField: UITextField!
+    
+    var selectedFromDestination: CLLocationCoordinate2D?
+    var selectedToDestination: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let originCoordinate = originCoordinate {
-            print("Origin: Latitude \(originCoordinate.latitude), Longitude \(originCoordinate.longitude)")
-        } else {
-            print("Origin coordinate is nil")
-        }
-                
-        // Safely unwrap and print the destination coordinate
-        if let destinationCoordinate = destinationCoordinate {
-            print("Destination: Latitude \(destinationCoordinate.latitude), Longitude \(destinationCoordinate.longitude)")
-        } else {
-            print("Destination coordinate is nil")
-        }
-        
         print("IN ROUTESVIEWCONTROLLER")
+        // searchRoute(origin: originCoordinate, destination: destinationCoordinate)
     }
+    
+    func searchRoute(origin: CLLocationCoordinate2D, destination: CLLocationCoordinate2D) {
+        let apiKey = "AIzaSyA34PSy0Cpr20op5PwVpdhSMOWpPiFMuv0"
+        let originString = "\(origin.latitude),\(origin.longitude)"
+        let destinationString = "\(destination.latitude),\(destination.longitude)"
+        
+        let url = URL(string: "https://maps.googleapis.com/maps/api/directions/json?origin=\(originString)&destination=\(destinationString)&key=\(apiKey)")!
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                // Parse the JSON response and extract route information
+                // Handle the route information (e.g., draw route on map)
+                print("JSON Response: \(json ?? [:])")
+                print("OriginString: ", originString)
+                print("DestinationString: ", destinationString)
+            } catch {
+                print("Error parsing JSON: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+    
+    
+
 }

@@ -52,9 +52,6 @@
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <connections>
-                        <segue destination="1s1-7i-WiF" kind="relationship" relationship="rootViewController" id="KoX-fi-3qG"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u6X-jl-Eu4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -63,20 +60,20 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="developing_v3" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="developing_v3" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0fK-6B-Few">
-                                <rect key="frame" x="16" y="103" width="361" height="586.33333333333337"/>
+                            <stackView opaque="NO" contentMode="top" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0fK-6B-Few">
+                                <rect key="frame" x="16" y="103" width="361" height="652.33333333333337"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origin" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AVB-ag-ec6">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="originGeocode:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="hoE-3s-mzr"/>
+                                            <action selector="originGeocode:" destination="BYZ-38-t0r" eventType="valueChanged" id="4hs-Oj-kdq"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aUf-9d-jSZ">
@@ -84,7 +81,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="destinationGeocode:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="jrD-OL-29Z"/>
+                                            <action selector="destinationGeocode:" destination="BYZ-38-t0r" eventType="valueChanged" id="5aK-UW-73y"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haI-xh-wGX">
@@ -96,29 +93,29 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFX-lV-8w3">
-                                        <rect key="frame" x="0.0" y="132.33333333333337" width="361" height="454"/>
+                                        <rect key="frame" x="0.0" y="132.33333333333337" width="361" height="520"/>
                                         <color key="backgroundColor" systemColor="separatorColor"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.52782518430000003" green="0.68063346629999999" blue="0.51192513569999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="0fK-6B-Few" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="CAB-K9-Xoe"/>
-                            <constraint firstItem="0fK-6B-Few" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="WjP-cc-6rb"/>
-                            <constraint firstItem="0fK-6B-Few" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Wnd-cq-7Vl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0fK-6B-Few" secondAttribute="bottom" constant="79.666666666666629" id="wkD-Hp-dJx"/>
+                            <constraint firstItem="0fK-6B-Few" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="BWU-CE-8oI"/>
+                            <constraint firstItem="0fK-6B-Few" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="TAe-vw-VxM"/>
+                            <constraint firstItem="0fK-6B-Few" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="VZe-F2-NDd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0fK-6B-Few" secondAttribute="bottom" constant="13.666666666666629" id="eYU-gX-vf0"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YVe-20-aDJ"/>
                     <connections>
-                        <outlet property="destinationTextInput" destination="aUf-9d-jSZ" id="99e-JA-dgf"/>
-                        <outlet property="mapView" destination="TFX-lV-8w3" id="SRm-Tl-Yyp"/>
+                        <outlet property="destinationTextInput" destination="aUf-9d-jSZ" id="1eq-IM-afm"/>
+                        <outlet property="mapView" destination="TFX-lV-8w3" id="BQS-7L-Xdu"/>
                         <outlet property="originTextInput" destination="AVB-ag-ec6" id="KqQ-Bu-kBG"/>
-                        <outlet property="searchButton" destination="haI-xh-wGX" id="s1c-xC-etV"/>
-                        <outlet property="stackView" destination="0fK-6B-Few" id="eeI-c2-elJ"/>
+                        <outlet property="searchButton" destination="haI-xh-wGX" id="X66-kn-0Gz"/>
+                        <outlet property="stackView" destination="0fK-6B-Few" id="Beq-wq-nKi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -133,13 +130,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="s0Q-Cf-fKp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemMintColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="A8L-tb-a1J"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0P2-Q4-uk3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1097" y="241"/>
+            <point key="canvasLocation" x="302" y="913"/>
         </scene>
     </scenes>
     <resources>
@@ -148,6 +145,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.78039215689999997" blue="0.74509803919999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

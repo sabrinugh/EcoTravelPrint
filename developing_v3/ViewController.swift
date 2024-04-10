@@ -15,12 +15,14 @@ import CoreLocation
 //}
 
 class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate {
+    
     @IBOutlet weak var stackView: UIStackView!
+    
     @IBOutlet weak var originTextInput: UITextField!
     @IBOutlet weak var destinationTextInput: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var mapView: UIView!
-    
+
     var originCoordinate: CLLocationCoordinate2D!
     var destinationCoordinate: CLLocationCoordinate2D!
     
@@ -30,23 +32,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     var GMSmapView: GMSMapView!
     var locationManager: CLLocationManager!
     var currentLocation: CLLocation! // Pick up the general vicinity of a user based on location settings
-    var pickupCoordinate: CLLocationCoordinate2D!
     
     var approximateLocationZoomLevel = 10
     var preciseLocationZoomLevel = 15
-
+//    var permissionFlag: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         
-        openMap()
+        // openMap()
     }
     
     // MARK: Requesting user agreement for using current location & checking if adequate authorisation has been given for the GPS location
@@ -65,30 +66,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        let accuracy = manager.accuracyAuthorization
-        switch accuracy {
-            case .fullAccuracy:
-                print("Location accuracy is precise.")
-            case .reducedAccuracy:
-                print("Location accuracy is not precise.")
-            @unknown default:
-                fatalError()
-        } // end switch
-        
-        switch status {
-            case .restricted:
-                print("Location accuracy has been restricted")
-            case .denied:
-                print("Location denied")
-                GMSmapView.isHidden = false
-            case .notDetermined:
-                print("Location status not determined.")
-            case .authorizedAlways: fallthrough
-            case .authorizedWhenInUse:
-                print("Location status is OK.")
-            @unknown default:
-            fatalError()
-        } // end switch
+        if status == .authorizedAlways {
+            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+                if CLLocationManager.isRangingAvailable() {
+                    print("Location permission granted")
+                }
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -97,9 +81,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
-        print("Error: \(error)")
+        print("Error with locationManager: \(error)")
     }
     
+    // MARK: Open the GMSMap into the stackView
     public func openMap() {
         if locationManager.accuracyAuthorization == .fullAccuracy {
             print("Precise location")
@@ -118,7 +103,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
             // Handle the case where mapView is nil
             print("Error: mapView is nil")
         }
-        
+                
         GMSmapView = GMSMapView(options: options)
         GMSmapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         GMSmapView.isMyLocationEnabled = true
@@ -127,32 +112,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         self.mapView.addSubview(GMSmapView)
     }
     
-    
     // MARK: Get user input via Core Location and geocode the answer and return to the Route search after button is pressed
     @IBAction func originGeocode(_ sender: Any) {
 //        print("In the text field: origin") // debug line
-        geocodeLocation(locationName: originTextInput.text ?? "") { orignCoordinate, error in
-            if let orignCoordinate = orignCoordinate {
-                print("Location: Latitude \(orignCoordinate.latitude), Longitude \(orignCoordinate.longitude)")
-            } else if let error = error {
-                print("Error geocoding: \(error.localizedDescription)")
-            }
-//            print(type(of:orignCoordinate)) // debug line
-        }
+//        geocodeLocation(locationName: originTextInput.text ?? "") { originCoordinate, error in
+//            if let originCoordinate = originCoordinate {
+//                print("Location: Latitude \(originCoordinate.latitude), Longitude \(originCoordinate.longitude)")
+//                self.originCoordinate = originCoordinate
+//            } else if let error = error {
+//                print("Error geocoding origin: \(error.localizedDescription)")
+//            }
+//        }
+//      print(type(of:orignCoordinate)) // debug line
     }
     
     @IBAction func destinationGeocode(_ sender: Any) {
 //        print("In the text field: destination") // debug line
-        
-        geocodeLocation(locationName: destinationTextInput.text ?? "") { destinationCoordinate, error in
-            if let destinationCoordinate = destinationCoordinate {
-                print("Location: Latitude \(destinationCoordinate.latitude), Longitude \(destinationCoordinate.longitude)")
-            } else if let error = error {
-                print("Error geocoding: \(error.localizedDescription)")
-            }
-//            print(type(of: destinationCoordinate)) // debug line
-        }
-       
+//        geocodeLocation(locationName: destinationTextInput.text ?? "") { destinationCoordinate, error in
+//            if let destinationCoordinate = destinationCoordinate {
+//                print("Location: Latitude \(destinationCoordinate.latitude), Longitude \(destinationCoordinate.longitude)")
+//                self.destinationCoordinate = destinationCoordinate
+//            } else if let error = error {
+//                print("Error geocoding destination: \(error.localizedDescription)")
+//            }
+//        }
+//      print(type(of: destinationCoordinate)) // debug line
     }
     
     // MARK: Geocoding using Core Location
@@ -208,13 +192,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 self.initGeocodeSearch(self.destinationTextInput) { destinationCoordinate, destinationError in
                     if let destinationCoordinate = destinationCoordinate {
                         // Instantiate the new view controller
-                        let routesViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RoutesViewController") as! RoutesViewController
-
+                        let vc = RoutesViewController()
+                    
                         // Pass the coordinates to the new view controller
-                        routesViewController.originCoordinate = originCoordinate
-                        routesViewController.destinationCoordinate = destinationCoordinate
+                        vc.originCoordinate = originCoordinate
+                        vc.destinationCoordinate = destinationCoordinate
+                       
                         // Present the new view controller modally
-                        self.present(routesViewController, animated: true, completion: nil)
+                        self.present(vc, animated: true, completion: nil)
+                        
                     } else if let destinationError = destinationError {
                         print("Error obtaining destination coordinates: \(destinationError.localizedDescription)")
                     }
@@ -223,6 +209,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 print("Error obtaining origin coordinates: \(originError.localizedDescription)")
             }
         }
+//        // Obtain the coordinates for origin and destination
+//        print("search button pressed")
+//        
+//        // Ensure that both origin and destination coordinates are available
+//        guard let origin = originCoordinate, let destination = destinationCoordinate 
+//        else {
+//            print("Origin or destination coordinates are nil")
+//            return
+//        }
+//
+//        // Instantiate the new view controller
+//        let vc = RoutesViewController()
+//
+//        // Pass the coordinates to the new view controller
+//        vc.originCoordinate = origin
+//        vc.destinationCoordinate = destination
+//
+//        // Present the new view controller modally
+//        self.present(vc, animated: true, completion: nil)
+//        
     }
 }
 
