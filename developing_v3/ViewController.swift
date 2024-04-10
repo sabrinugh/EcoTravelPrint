@@ -10,10 +10,6 @@ import GoogleMaps
 import GooglePlaces
 import CoreLocation
 
-//protocol DataPassingDelegate: AnyObject {
-//    func passLocationNames(names:[String])
-//}
-
 class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var stackView: UIStackView!
@@ -23,10 +19,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var mapView: UIView!
 
+    @IBOutlet weak var carSelect: UIButton!
+    @IBOutlet weak var walkSelect: UIButton!
+    @IBOutlet weak var cycleSelect: UIButton!
+    @IBOutlet weak var transitSelect: UIButton!
+    var modeTransport = ""
+    
     var originCoordinate: CLLocationCoordinate2D!
     var destinationCoordinate: CLLocationCoordinate2D!
     
-//    weak var delegate: DataPassingDelegate?
     var geocoder: CLGeocoder!
     
     var GMSmapView: GMSMapView!
@@ -35,7 +36,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     
     var approximateLocationZoomLevel = 10
     var preciseLocationZoomLevel = 15
-//    var permissionFlag: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,31 +112,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         self.mapView.addSubview(GMSmapView)
     }
     
-    // MARK: Get user input via Core Location and geocode the answer and return to the Route search after button is pressed
+    // MARK: Allow user input via textFields or buttons for route searching
     @IBAction func originGeocode(_ sender: Any) {
-//        print("In the text field: origin") // debug line
-//        geocodeLocation(locationName: originTextInput.text ?? "") { originCoordinate, error in
-//            if let originCoordinate = originCoordinate {
-//                print("Location: Latitude \(originCoordinate.latitude), Longitude \(originCoordinate.longitude)")
-//                self.originCoordinate = originCoordinate
-//            } else if let error = error {
-//                print("Error geocoding origin: \(error.localizedDescription)")
-//            }
-//        }
-//      print(type(of:orignCoordinate)) // debug line
     }
     
     @IBAction func destinationGeocode(_ sender: Any) {
-//        print("In the text field: destination") // debug line
-//        geocodeLocation(locationName: destinationTextInput.text ?? "") { destinationCoordinate, error in
-//            if let destinationCoordinate = destinationCoordinate {
-//                print("Location: Latitude \(destinationCoordinate.latitude), Longitude \(destinationCoordinate.longitude)")
-//                self.destinationCoordinate = destinationCoordinate
-//            } else if let error = error {
-//                print("Error geocoding destination: \(error.localizedDescription)")
-//            }
-//        }
-//      print(type(of: destinationCoordinate)) // debug line
+    }
+    @IBAction func carButtonTapped(_ sender: UIButton) {
+        self.modeTransport = "driving"
+    }
+    
+    @IBAction func walkButtonTapped(_ sender: UIButton) {
+        self.modeTransport = "walking"
+    }
+    @IBAction func cycleButtonTapped(_ sender: UIButton) {
+        self.modeTransport = "cycling"
+    }
+    @IBAction func transitButtonTapped(_ sender: UIButton) {
+        self.modeTransport = "transit"
     }
     
     // MARK: Geocoding using Core Location
@@ -192,14 +185,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 self.initGeocodeSearch(self.destinationTextInput) { destinationCoordinate, destinationError in
                     if let destinationCoordinate = destinationCoordinate {
                         // Instantiate the new view controller
-                        let vc = RoutesViewController()
-                    
-                        // Pass the coordinates to the new view controller
-                        vc.originCoordinate = originCoordinate
-                        vc.destinationCoordinate = destinationCoordinate
-                       
-                        // Present the new view controller modally
-                        self.present(vc, animated: true, completion: nil)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                            
+                        // Instantiate the RoutesViewController from the storyboard
+                        if let vc = storyboard.instantiateViewController(withIdentifier: "RoutesViewController") as? RoutesViewController {
+                            // Pass the coordinates to the new view controller
+                            vc.originCoordinate = originCoordinate
+                            vc.destinationCoordinate = destinationCoordinate
+                            if self.modeTransport != "" {
+                                vc.transportMode = self.modeTransport
+                            } else{
+                                vc.transportMode = "driving" // set driving as default - normal for URL request
+                            }
+                            // Present the new view controller modally
+                            self.present(vc, animated: true, completion: nil)
+                        }
                         
                     } else if let destinationError = destinationError {
                         print("Error obtaining destination coordinates: \(destinationError.localizedDescription)")
@@ -209,26 +209,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                 print("Error obtaining origin coordinates: \(originError.localizedDescription)")
             }
         }
-//        // Obtain the coordinates for origin and destination
-//        print("search button pressed")
-//        
-//        // Ensure that both origin and destination coordinates are available
-//        guard let origin = originCoordinate, let destination = destinationCoordinate 
-//        else {
-//            print("Origin or destination coordinates are nil")
-//            return
-//        }
-//
-//        // Instantiate the new view controller
-//        let vc = RoutesViewController()
-//
-//        // Pass the coordinates to the new view controller
-//        vc.originCoordinate = origin
-//        vc.destinationCoordinate = destination
-//
-//        // Present the new view controller modally
-//        self.present(vc, animated: true, completion: nil)
-//        
     }
 }
 
