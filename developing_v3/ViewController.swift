@@ -47,7 +47,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
         locationManager.distanceFilter = 50
         locationManager.startUpdatingLocation()
         
-        // openMap()
+        openMap()
     }
     
     // MARK: Requesting user agreement for using current location & checking if adequate authorisation has been given for the GPS location

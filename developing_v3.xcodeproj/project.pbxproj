@@ -23,7 +23,14 @@
 		42815C3C2BB57C530099782C /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C3B2BB57C530099782C /* GoogleMapsM4B */; };
 		42815C442BB57C930099782C /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C432BB57C930099782C /* GooglePlaces */; };
 		42815C472BB57CA00099782C /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 42815C462BB57CA00099782C /* SwiftyJSON */; };
+		42C4632F2BC8228A00042DFA /* DataRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4632E2BC8228A00042DFA /* DataRealm.swift */; };
+		42C463312BC8249400042DFA /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463302BC8249400042DFA /* RealmManager.swift */; };
+		42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463322BC835A400042DFA /* SavedRoutesViewController.swift */; };
+		42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */; };
+		42C463382BC8686400042DFA /* cellViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463372BC8686400042DFA /* cellViewTemplate.swift */; };
 		42C906D62BBC54E000031125 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C906D52BBC54E000031125 /* MainViewController.swift */; };
+		42CAEB1A2BC7F1050028943F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB192BC7F1050028943F /* Realm */; };
+		42CAEB1C2BC7F1050028943F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB1B2BC7F1050028943F /* RealmSwift */; };
 		42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 42E30A3E2BB74580007C56BF /* Alamofire */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +66,11 @@
 		42815C212BB096020099782C /* developing_v3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = developing_v3UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42815C252BB096020099782C /* developing_v3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v3UITests.swift; sourceTree = "<group>"; };
 		42815C272BB096020099782C /* developing_v3UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = developing_v3UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		42C4632E2BC8228A00042DFA /* DataRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRealm.swift; sourceTree = "<group>"; };
+		42C463302BC8249400042DFA /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		42C463322BC835A400042DFA /* SavedRoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoutesViewController.swift; sourceTree = "<group>"; };
+		42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsViewController.swift; sourceTree = "<group>"; };
+		42C463372BC8686400042DFA /* cellViewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellViewTemplate.swift; sourceTree = "<group>"; };
 		42C906D52BBC54E000031125 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,9 +82,11 @@
 				42815C472BB57CA00099782C /* SwiftyJSON in Frameworks */,
 				42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */,
 				42815C442BB57C930099782C /* GooglePlaces in Frameworks */,
+				42CAEB1C2BC7F1050028943F /* RealmSwift in Frameworks */,
 				42815C362BB57C530099782C /* GoogleMaps in Frameworks */,
 				42815C3A2BB57C530099782C /* GoogleMapsCore in Frameworks */,
 				42815C3C2BB57C530099782C /* GoogleMapsM4B in Frameworks */,
+				42CAEB1A2BC7F1050028943F /* Realm in Frameworks */,
 				42815C382BB57C530099782C /* GoogleMapsBase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,12 +131,16 @@
 		42815C032BB096000099782C /* developing_v3 */ = {
 			isa = PBXGroup;
 			children = (
+				42C463362BC83E7500042DFA /* Realm */,
 				42C906D42BBC540800031125 /* Supporting */,
 				42C906D52BBC54E000031125 /* MainViewController.swift */,
 				42815C082BB096000099782C /* ViewController.swift */,
+				424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */,
+				42C463322BC835A400042DFA /* SavedRoutesViewController.swift */,
+				42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */,
+				42C463372BC8686400042DFA /* cellViewTemplate.swift */,
 				42815C0A2BB096000099782C /* Main.storyboard */,
 				42815C122BB096020099782C /* Info.plist */,
-				424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */,
 			);
 			path = developing_v3;
 			sourceTree = "<group>";
@@ -142,6 +160,15 @@
 				42815C272BB096020099782C /* developing_v3UITestsLaunchTests.swift */,
 			);
 			path = developing_v3UITests;
+			sourceTree = "<group>";
+		};
+		42C463362BC83E7500042DFA /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				42C4632E2BC8228A00042DFA /* DataRealm.swift */,
+				42C463302BC8249400042DFA /* RealmManager.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		42C906D42BBC540800031125 /* Supporting */ = {
@@ -179,6 +206,8 @@
 				42815C432BB57C930099782C /* GooglePlaces */,
 				42815C462BB57CA00099782C /* SwiftyJSON */,
 				42E30A3E2BB74580007C56BF /* Alamofire */,
+				42CAEB192BC7F1050028943F /* Realm */,
+				42CAEB1B2BC7F1050028943F /* RealmSwift */,
 			);
 			productName = developing_v3;
 			productReference = 42815C012BB096000099782C /* developing_v3.app */;
@@ -257,6 +286,7 @@
 				42815C422BB57C930099782C /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				42815C452BB57CA00099782C /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				42E30A3D2BB74580007C56BF /* XCRemoteSwiftPackageReference "Alamofire" */,
+				42CAEB182BC7F1050028943F /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 42815C022BB096000099782C /* Products */;
 			projectDirPath = "";
@@ -302,10 +332,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				42815C092BB096000099782C /* ViewController.swift in Sources */,
+				42C4632F2BC8228A00042DFA /* DataRealm.swift in Sources */,
 				42815C052BB096000099782C /* AppDelegate.swift in Sources */,
 				42815C072BB096000099782C /* SceneDelegate.swift in Sources */,
 				42C906D62BBC54E000031125 /* MainViewController.swift in Sources */,
+				42C463312BC8249400042DFA /* RealmManager.swift in Sources */,
+				42C463382BC8686400042DFA /* cellViewTemplate.swift in Sources */,
+				42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */,
 				424F554F2BC6DA5600BCC9A2 /* RoutesViewController.swift in Sources */,
+				42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +713,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		42CAEB182BC7F1050028943F /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		42E30A3D2BB74580007C56BF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -718,6 +761,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 42815C452BB57CA00099782C /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		42CAEB192BC7F1050028943F /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42CAEB182BC7F1050028943F /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		42CAEB1B2BC7F1050028943F /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42CAEB182BC7F1050028943F /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		42E30A3E2BB74580007C56BF /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
