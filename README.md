@@ -27,3 +27,10 @@ When downloading/pulling this app, you must import the following packages and ru
   <li>Google Places for iOS: https://github.com/googlemaps/ios-places-sdk</li>
 Additionally, the AppDelegate.swift file should be modified to insert your own Google API key, which can be created via the Google Cloud console for your project (in this repo, I have used my own key but limited access to it which is not a good idea for security).
 </p>
+
+<h3>Issues</h3>
+<p>Unsure if this is a personal issue running on my own device, but you may need to preload the Main.storyboard to ensure all outlets are connected in their corresponding Swift view controllers</p>
+
+<h4>Hardware Used in Project</h4>
+<li>Macbook Pro 2020 - memory issues</li>
+<li>2TB WD Passport HHD</li>
