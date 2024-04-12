@@ -27,8 +27,8 @@
 		42C463312BC8249400042DFA /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463302BC8249400042DFA /* RealmManager.swift */; };
 		42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463322BC835A400042DFA /* SavedRoutesViewController.swift */; };
 		42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */; };
-		42C463382BC8686400042DFA /* cellViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463372BC8686400042DFA /* cellViewTemplate.swift */; };
 		42C906D62BBC54E000031125 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C906D52BBC54E000031125 /* MainViewController.swift */; };
+		42CA27CD2BC893DE0080F715 /* cellViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */; };
 		42CAEB1A2BC7F1050028943F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB192BC7F1050028943F /* Realm */; };
 		42CAEB1C2BC7F1050028943F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB1B2BC7F1050028943F /* RealmSwift */; };
 		42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 42E30A3E2BB74580007C56BF /* Alamofire */; };
@@ -70,8 +70,8 @@
 		42C463302BC8249400042DFA /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		42C463322BC835A400042DFA /* SavedRoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoutesViewController.swift; sourceTree = "<group>"; };
 		42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsViewController.swift; sourceTree = "<group>"; };
-		42C463372BC8686400042DFA /* cellViewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellViewTemplate.swift; sourceTree = "<group>"; };
 		42C906D52BBC54E000031125 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellViewTemplate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,9 +138,9 @@
 				424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */,
 				42C463322BC835A400042DFA /* SavedRoutesViewController.swift */,
 				42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */,
-				42C463372BC8686400042DFA /* cellViewTemplate.swift */,
 				42815C0A2BB096000099782C /* Main.storyboard */,
 				42815C122BB096020099782C /* Info.plist */,
+				42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */,
 			);
 			path = developing_v3;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 				42815C072BB096000099782C /* SceneDelegate.swift in Sources */,
 				42C906D62BBC54E000031125 /* MainViewController.swift in Sources */,
 				42C463312BC8249400042DFA /* RealmManager.swift in Sources */,
-				42C463382BC8686400042DFA /* cellViewTemplate.swift in Sources */,
+				42CA27CD2BC893DE0080F715 /* cellViewTemplate.swift in Sources */,
 				42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */,
 				424F554F2BC6DA5600BCC9A2 /* RoutesViewController.swift in Sources */,
 				42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */,
