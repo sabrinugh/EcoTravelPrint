@@ -20,12 +20,14 @@
 
 <h2>How to run</h2>
 <p>As this program was implemented in Swift 5 XCode 15 and the target deployment version at iOS 17, future iterations may have depreceated some functionality. If not, then the required software is Swift 5 and XCode 15 Storyboard.
-When downloading/pulling this app, you must import the following packages and run it on an iOS 17 device. Using XCode's in-built package manager, you can easily import the packages from the following links:
+When downloading/pulling this app, , open the .xcodeproj file to view the workspace. Here you must import the following packages and run it on an iOS 17 device. Using XCode's in-built package manager, you can easily import the packages from the following links:
   <li>SwiftyJSON: https://github.com/SwiftyJSON/SwiftyJSON</li>
   <li>Realm Database: https://github.com/realm/realm-swift</li>
   <li>Google Maps for iOS: https://github.com/googlemaps/ios-maps-sdk</li>
   <li>Google Places for iOS: https://github.com/googlemaps/ios-places-sdk</li>
 Additionally, the AppDelegate.swift file should be modified to insert your own Google API key, which can be created via the Google Cloud console for your project (in this repo, I have used my own key but limited access to it which is not a good idea for security).
+Once everything is set up, simply select your emulator (or connect your supported iOS device, see: https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device) and run the software by clicking the play button in the left-hand corner.
+
 </p>
 
 <h3>Issues</h3>
