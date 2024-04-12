@@ -2,74 +2,100 @@ import UIKit
 import GoogleMaps
 import RealmSwift
 
-class SavedRoutesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SavedRoutesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TripDeletionDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    var trips: Results<Trip>?
-    let realm = RealmManager.shared.getRealm()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var savedTrips: Results<SavedTrips>?
+        let realm = RealmManager.shared.getRealm()
         
-        // Set up table view
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        // Register custom cell
-        tableView.register(cellViewTemplate.self, forCellReuseIdentifier: "tripCell")
-        
-        // Retrieve trip data from Realm
-        trips = realm.objects(Trip.self)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
-    // MARK: UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trips?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "tripCell", for: indexPath) as? cellViewTemplate else {
-            // If cell is nil, return a default UITableViewCell
-            return UITableViewCell()
-        }
+        override func viewDidLoad() {
+            super.viewDidLoad()
             
-        if let trip = trips?[indexPath.row] {
-            let emissionValue = trip.emissions.first?.value ?? 0.0
-            let destinationName = trip.destination?.name ?? "Unknown"
-
-            // Update the labels in the cell if they are not nil
-            cell.carbonEmissions.text = "\(emissionValue) gCO2"
-            cell.destinationVar.text = destinationName
+            // Fetch SavedTrips data from Realm
+            savedTrips = realm.objects(SavedTrips.self)
+            
+            // Configure table view
+            tableView.dataSource = self
+            tableView.delegate = self
+        }
+        
+        // MARK: UITableViewDataSource Methods
+        func numberOfSections(in tableView: UITableView) -> Int {
+            return 1
+        }
+        
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            if let savedTrips = savedTrips, !savedTrips.isEmpty {
+                return savedTrips.count
+            } else {
+                // Return 1 row for "No saved routes" message
+                return 1
+            }
+        }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RouteCell", for: indexPath) as! CellViewTemplate
+        
+        if let savedTrip = savedTrips?[indexPath.row], let emission = savedTrip.trip?.emissions.first {
+            let formattedEmissions = String(format: "%.3f", emission.value)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy" // Customize the date format as needed
+            let formattedDate = dateFormatter.string(from: emission.date)
+            
+            // Configure cell with emission value and date
+            cell.carbonEmissions.text = "\(formattedEmissions)"
+            cell.dateVar.text = "\(formattedDate)"
         } else {
-            // If trip is nil, return a default UITableViewCell
-            return UITableViewCell()
+            // Handle the case where savedTrip or emission is nil
+            cell.carbonEmissions.text = "No emission data available"
+            cell.dateVar.text = "No date available"
         }
         return cell
-    }
-    
-    
-    // MARK: UITableViewDelegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Deselect the selected row
-        tableView.deselectRow(at: indexPath, animated: true)
         
-        // Open a new view controller
-        if let trip = trips?[indexPath.row] {
-            let tripDetailsVC = TripDetailsViewController()
-            tripDetailsVC.trip = trip // Pass the selected trip to the new view controller
-            
-            // Push the new view controller onto the navigation stack
-            navigationController?.pushViewController(tripDetailsVC, animated: true)
-        }
     }
     
+    // MARK: Open trip and disply all relevant details
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let savedTrips = savedTrips else {
+            print("savedTrips is nil")
+            return
+        }
+            
+        guard indexPath.row < savedTrips.count else {
+            print("Index out of bounds")
+            return
+        }
+        let selectedTrip = savedTrips[indexPath.row]
+        // Instantiate the new view controller
+        let vc = TripDetailsViewController()
+        vc.delegate = self
+        vc.trip = selectedTrip.trip
+        navigationController?.pushViewController(vc, animated: true) // Open a nav controller where we can easily go back
+    }
+    
+    // Update the table view when RoutesViewController saves a new route.
     func didAddTrip(_ trip: Trip) {
-        // Reload the table view to show any added trips
+        // Update savedTrips array
+        savedTrips = realm.objects(SavedTrips.self)
+        
+        // Reload table view to reflect changes
         tableView.reloadData()
     }
+    
+    func deleteTrip(_ tripID: String) {
+        if let tripToDelete = savedTrips?.filter("trip.id == %@", tripID).first {
+            try! realm.write {
+                realm.delete(tripToDelete) // delete trip
+            }
+            // Reload table view to reflect changes
+            tableView.reloadData()
+        }
+    }
 }
+
+protocol TripDeletionDelegate: AnyObject {
+    func deleteTrip(_ tripID: String)
+}
+
+
+    

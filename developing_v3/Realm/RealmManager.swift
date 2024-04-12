@@ -8,31 +8,33 @@ import RealmSwift
 
 class RealmManager {
     static let shared = RealmManager()
-
-    private init() {}
-
-    func getRealm() -> Realm {
-        var config = Realm.Configuration()
-
-        // Set the schema version and migration block
-        config.schemaVersion = 1 // Increment the schema version when you modify the schema
-        config.migrationBlock = { migration, oldSchemaVersion in
-            if oldSchemaVersion < 1 {
-                // Perform migration if needed
-                migration.enumerateObjects(ofType: Trip.className()) { oldObject, newObject in
-                    // Add or modify properties as needed
-                    newObject?["routeInfo"] = nil // Set default value or perform necessary changes
+    
+    // Increment the schema version to trigger migration
+    private let schemaVersion: UInt64 = 3
+    
+    private init() {
+        // Update to allow duration to be a new data field in RouteInfo object
+        let config = Realm.Configuration(
+            schemaVersion: schemaVersion,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    // Perform migration for version 1
+                    // Add the 'duration' property to the 'RouteInfo' object
+                    migration.enumerateObjects(ofType: RouteInfo.className()) { oldObject, newObject in
+                        // Set the default value for 'duration' if needed
+                        newObject?["distance"] = 0.0
+                    }
                 }
-            }
-        }
-
-        // Apply the configuration
+            })
+        
+        // Use the new configuration
         Realm.Configuration.defaultConfiguration = config
-
-        // Return the Realm instance
+    }
+    
+    func getRealm() -> Realm {
         do {
-            let realm = try Realm()
-            return realm
+            // Return the Realm instance with the updated configuration
+            return try Realm()
         } catch {
             fatalError("Failed to initialize Realm: \(error)")
         }

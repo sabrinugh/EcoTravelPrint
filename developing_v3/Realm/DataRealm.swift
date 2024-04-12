@@ -27,6 +27,8 @@ class RouteInfo: Object {
     @Persisted var destination: Location?
     @Persisted var methodOfTravel: String?
     @Persisted var polylinePoints: String?
+    @Persisted var duration: Int = 0
+    @Persisted var distance: Float = 0.0
 }
 
 class Trip: Object {
@@ -36,7 +38,6 @@ class Trip: Object {
     // Emissions attached to a given trip
     @Persisted var emissions: List<Emission>
     @Persisted var destination: Location?
-    @Persisted var destinationName: String?
     @Persisted var origin: Location?
     @Persisted var methodOfTravel: String?
     
@@ -47,3 +48,17 @@ class Trip: Object {
     }
 }
 
+class User: Object {
+    @Persisted var imageData: Data?
+    @Persisted var name: String?
+}
+
+// Purposefully saved by user
+class SavedTrips: Object {
+    @Persisted var trip: Trip?
+}
+
+// Search history
+class SearchedTrips: Object {
+    @Persisted var trip: Trip?
+}

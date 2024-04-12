@@ -21,9 +21,11 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     
     weak var tripAddedDelegate: TripAddedDelegate? // Update the table view of all saved routes
     
+    let realm = RealmManager.shared.getRealm()
+    
     var locationManager: CLLocationManager!
-    var preciseLocationZoomLevel = 10
-    var approximateLocationZoomLevel = 20
+    var preciseLocationZoomLevel = 15.0
+    var approximateLocationZoomLevel = 10.0
     var GMSmapView: GMSMapView!
     
     var originCoordinate: CLLocationCoordinate2D!
@@ -31,6 +33,8 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     var destinationName: String?
     var transportMode: String = ""
     var totalCarbonEmission: Double = 0.00
+    var totalDuration: Int = 0
+    var totalDistance: Float = 0.0
     var carbonEmissionLDV = 2.45
     var points: String = ""
     
@@ -106,8 +110,18 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
                     print("DestinationString: ", destinationString)
                     
                     self.totalCarbonEmission = calculateRouteDistanceAndEmissions(from: json ?? [:], forTransport: modeString)!
-                    
                     self.displayRouteOnMap(json: json ?? [:]) // Call to display the route
+                    let (trip, routeInfo, emissions) = createTrip() // Just ot save history of searches
+                    try! realm.write {
+                        trip.routeInfo = routeInfo
+                        let searchedTrip = SearchedTrips()
+                        searchedTrip.trip = trip
+                        realm.add(searchedTrip)
+                        realm.add(emissions)
+                        realm.add(routeInfo)
+                        print("History saved") // if successful
+                    }
+//                    deleteRealmDatabase() // clear cache to debug and testing
                 }
             } catch {
                 print("Error parsing JSON: \(error.localizedDescription)")
@@ -148,15 +162,15 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         // Calculate the center of the bounds - GMSCoordinateBounds() doesn't have center field
-        let centreLatitude = (bounds.northEast.latitude + bounds.southWest.latitude) / 2
-        let centreLongitude = (bounds.northEast.longitude + bounds.southWest.longitude) / 2
+        let centreLatitude = ((bounds.northEast.latitude + bounds.southWest.latitude) / 2) + 0.005 // hard-coded offsets, not great
+        let centreLongitude = ((bounds.northEast.longitude + bounds.southWest.longitude) / 2) + 0.003
         let centre = CLLocationCoordinate2D(latitude: centreLatitude, longitude: centreLongitude)
         
-        // Move the camera to the center point
-        let camera = GMSCameraUpdate.setTarget(centre, zoom: Float(preciseLocationZoomLevel))
-        GMSmapView.animate(with: camera)
+        let cameraUpdate = GMSCameraUpdate.setTarget(centre, zoom: Float(preciseLocationZoomLevel))
+        GMSmapView.animate(with: cameraUpdate)
     }
     
+
     // MARK: - Using SwiftyJSON to manage and parse the returned JSON directions to find distance and thereby calculate the CO2 emissions; also saving down the polylines to a variable so it can be stored and drawn out at a future date.
     func calculateRouteDistanceAndEmissions(from json: [String: Any], forTransport transportMode: String) -> Double? {
         guard let routes = json["routes"] as? [[String: Any]] else {
@@ -166,7 +180,6 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
             
         var totalDistance = 0.0
         var totalEmissions = 0.0
-        var totalDuration = 0
             
         for route in routes {
             guard let legs = route["legs"] as? [[String: Any]], let firstLeg = legs.first else {
@@ -177,12 +190,12 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
             // Calculate total distance and duration of the journey
             if let distanceDict = firstLeg["distance"] as? [String: Any], let distanceValue = distanceDict["value"] as? Double, let durationDict = firstLeg["duration"] as? [String: Any], let durationValue = durationDict["value"] as? Int {
                 totalDistance += distanceValue
-                totalDuration += durationValue
+                self.totalDuration += durationValue
             } else {
                 print("Invalid distance or duration format")
                 continue
             }
-                
+
             // Iterate through each leg
             for leg in legs {
                 guard let steps = leg["steps"] as? [[String: Any]] else {
@@ -194,6 +207,11 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
                 for step in steps {
                     guard let distanceDict = step["distance"] as? [String: Any], let distanceValue = distanceDict["value"] as? Double, let travelMode = step["travel_mode"] as? String else {
                         print("Invalid step format")
+                        continue
+                    }
+                    
+                    // Check if walking/cycling for method of travel - if at all, ignore all calculation for CO2e
+                    if transportMode.lowercased() == "walking" || transportMode.lowercased() == "cycling" {
                         continue
                     }
                     
@@ -215,7 +233,7 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
         // Update UI labels with calculated values
         DispatchQueue.main.async { [weak self] in
             self?.distanceLabel.text = String(format: "%.2f km", totalDistance/1000)
-            self?.durationLabel.text = String(format: "%d minutes", totalDuration/60)
+            self?.durationLabel.text = String(format: "%d minutes", self!.totalDuration/60)
             self?.emissionsLabel.text = String(format: "%.2f gCO2/km", totalEmissions)
         }
         print("Distance: \(totalDistance)m")
@@ -248,8 +266,33 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: Save the values to a local Realm DB (can be moved to cloud in future)
     @IBAction func saveRoute (_ sender: Any) {
-        let realm = RealmManager.shared.getRealm()
-        
+        let (trip, routeInfo, emission) = createTrip()
+        try! realm.write {
+            // Add all data fields to the DB (Excluding location of trip
+            trip.routeInfo = routeInfo
+            
+            let savedTrip = SavedTrips()
+            savedTrip.trip = trip
+            
+            realm.add(routeInfo)
+            realm.add(emission)
+            realm.add(savedTrip) 
+        }
+        print("Route saved successfully")
+        tripAddedDelegate?.didAddTrip(trip)
+        showAlert(message: "Route saved successfully")
+//        deleteRealmDatabase()
+//        print("Route deleted successfully")
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    
+    func createTrip() -> (Trip, RouteInfo, Emission) {
         // Create a new Trip object
         let trip = Trip()
         
@@ -284,30 +327,21 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
         destinationLocation.latitude = destinationCoordinate.latitude
         destinationLocation.longitude = destinationCoordinate.longitude
         
+        let durationInSeconds = Double(totalDuration)
+        let durationInMinutes = durationInSeconds / 60
         let routeInfo = RouteInfo()
         routeInfo.origin = originLocation
         routeInfo.destination = destinationLocation
         routeInfo.methodOfTravel = transportMode.lowercased()
         routeInfo.polylinePoints = points
+        routeInfo.duration = Int(durationInMinutes)
+        routeInfo.distance = totalDistance
         
-        try! realm.write {
-            // Set the routeInfo property of the trip
-            trip.routeInfo = routeInfo
-            
-            // Add the routeInfo object to the Realm database
-            realm.add(routeInfo)
-            
-            // Add the trip and emission objects to the Realm database
-            realm.add(trip)
-            realm.add(emission)
-        }
-        
-        readDataFromRealm()
+//        readDataFromRealm() // debug line
         tripAddedDelegate?.didAddTrip(trip)
-        print("Route saved successfully")
-        
-//        deleteRealmDatabase()
-//        print("Route deleted successfully")
+        print("Trip created")
+
+        return (trip, routeInfo, emission)
     }
 }
 
@@ -334,7 +368,7 @@ func readDataFromRealm() {
                 print("- Value: \(emission.value), Date: \(emission.date)")
             }
         }
-    } catch {
+    } catch let error {
         print("Error reading trips from Realm: \(error.localizedDescription)")
     }
 }

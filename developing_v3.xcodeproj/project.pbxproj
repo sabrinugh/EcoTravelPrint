@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4247931B2BC94DE000FFECBC /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4247931A2BC94DDF00FFECBC /* UserViewController.swift */; };
 		424F554F2BC6DA5600BCC9A2 /* RoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */; };
+		426D693B2BC99F66007D5DA3 /* NoRoutesSavedTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426D693A2BC99F66007D5DA3 /* NoRoutesSavedTemplate.swift */; };
 		42815C052BB096000099782C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C042BB096000099782C /* AppDelegate.swift */; };
 		42815C072BB096000099782C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C062BB096000099782C /* SceneDelegate.swift */; };
 		42815C092BB096000099782C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42815C082BB096000099782C /* ViewController.swift */; };
@@ -28,7 +30,7 @@
 		42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463322BC835A400042DFA /* SavedRoutesViewController.swift */; };
 		42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */; };
 		42C906D62BBC54E000031125 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C906D52BBC54E000031125 /* MainViewController.swift */; };
-		42CA27CD2BC893DE0080F715 /* cellViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */; };
+		42CA27CD2BC893DE0080F715 /* CellViewTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CA27CC2BC893DE0080F715 /* CellViewTemplate.swift */; };
 		42CAEB1A2BC7F1050028943F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB192BC7F1050028943F /* Realm */; };
 		42CAEB1C2BC7F1050028943F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 42CAEB1B2BC7F1050028943F /* RealmSwift */; };
 		42E30A3F2BB74580007C56BF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 42E30A3E2BB74580007C56BF /* Alamofire */; };
@@ -52,7 +54,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4247931A2BC94DDF00FFECBC /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesViewController.swift; sourceTree = "<group>"; };
+		426D693A2BC99F66007D5DA3 /* NoRoutesSavedTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoRoutesSavedTemplate.swift; sourceTree = "<group>"; };
 		42815C012BB096000099782C /* developing_v3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = developing_v3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42815C042BB096000099782C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		42815C062BB096000099782C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,7 +75,7 @@
 		42C463322BC835A400042DFA /* SavedRoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRoutesViewController.swift; sourceTree = "<group>"; };
 		42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailsViewController.swift; sourceTree = "<group>"; };
 		42C906D52BBC54E000031125 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cellViewTemplate.swift; sourceTree = "<group>"; };
+		42CA27CC2BC893DE0080F715 /* CellViewTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellViewTemplate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,14 +137,16 @@
 			children = (
 				42C463362BC83E7500042DFA /* Realm */,
 				42C906D42BBC540800031125 /* Supporting */,
+				42815C0A2BB096000099782C /* Main.storyboard */,
 				42C906D52BBC54E000031125 /* MainViewController.swift */,
 				42815C082BB096000099782C /* ViewController.swift */,
+				4247931A2BC94DDF00FFECBC /* UserViewController.swift */,
 				424F554E2BC6DA5600BCC9A2 /* RoutesViewController.swift */,
 				42C463322BC835A400042DFA /* SavedRoutesViewController.swift */,
 				42C463342BC83E6A00042DFA /* TripDetailsViewController.swift */,
-				42815C0A2BB096000099782C /* Main.storyboard */,
+				42CA27CC2BC893DE0080F715 /* CellViewTemplate.swift */,
+				426D693A2BC99F66007D5DA3 /* NoRoutesSavedTemplate.swift */,
 				42815C122BB096020099782C /* Info.plist */,
-				42CA27CC2BC893DE0080F715 /* cellViewTemplate.swift */,
 			);
 			path = developing_v3;
 			sourceTree = "<group>";
@@ -334,10 +340,12 @@
 				42815C092BB096000099782C /* ViewController.swift in Sources */,
 				42C4632F2BC8228A00042DFA /* DataRealm.swift in Sources */,
 				42815C052BB096000099782C /* AppDelegate.swift in Sources */,
+				4247931B2BC94DE000FFECBC /* UserViewController.swift in Sources */,
+				426D693B2BC99F66007D5DA3 /* NoRoutesSavedTemplate.swift in Sources */,
 				42815C072BB096000099782C /* SceneDelegate.swift in Sources */,
 				42C906D62BBC54E000031125 /* MainViewController.swift in Sources */,
 				42C463312BC8249400042DFA /* RealmManager.swift in Sources */,
-				42CA27CD2BC893DE0080F715 /* cellViewTemplate.swift in Sources */,
+				42CA27CD2BC893DE0080F715 /* CellViewTemplate.swift in Sources */,
 				42C463332BC835A400042DFA /* SavedRoutesViewController.swift in Sources */,
 				424F554F2BC6DA5600BCC9A2 /* RoutesViewController.swift in Sources */,
 				42C463352BC83E6A00042DFA /* TripDetailsViewController.swift in Sources */,

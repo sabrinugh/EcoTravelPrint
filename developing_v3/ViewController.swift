@@ -4,6 +4,9 @@
 //
 //  Created by Sabrina Boc on 24/03/2024.
 //
+// Display the first page of Eco-Travel Print. It denotes a simple map view of Dublin, if your location settings are not working, and allows
+// users to input their navigational needs to find a suitable route.
+//
 
 import UIKit
 import GoogleMaps
@@ -217,13 +220,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
                         }
                         
                     } else if let destinationError = destinationError {
+                        self.showAlert(message: "Unknown destination")
                         print("Error obtaining destination coordinates: \(destinationError.localizedDescription)")
                     }
                 }
             } else if let originError = originError {
+                self.showAlert(message: "Unknown origin")
                 print("Error obtaining origin coordinates: \(originError.localizedDescription)")
             }
         }
+    }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
