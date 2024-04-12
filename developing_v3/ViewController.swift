@@ -120,16 +120,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDe
     }
     @IBAction func carButtonTapped(_ sender: UIButton) {
         self.modeTransport = "driving"
+        resetButtonColors()
+        sender.tintColor = UIColor.systemGreen
     }
     
     @IBAction func walkButtonTapped(_ sender: UIButton) {
         self.modeTransport = "walking"
+        resetButtonColors()
+        sender.tintColor = UIColor.systemGreen
     }
     @IBAction func cycleButtonTapped(_ sender: UIButton) {
         self.modeTransport = "cycling"
+        resetButtonColors()
+        sender.tintColor = UIColor.systemGreen
     }
     @IBAction func transitButtonTapped(_ sender: UIButton) {
         self.modeTransport = "transit"
+        resetButtonColors()
+        sender.tintColor = UIColor.systemGreen
+    }
+    
+    func resetButtonColors() {
+        carSelect.tintColor = UIColor.systemBlue
+        walkSelect.tintColor = UIColor.systemBlue
+        cycleSelect.tintColor = UIColor.systemBlue
+        transitSelect.tintColor = UIColor.systemBlue
     }
     
     // MARK: Geocoding using Core Location

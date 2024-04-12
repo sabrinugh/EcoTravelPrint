@@ -15,6 +15,9 @@ import RealmSwift
 class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var selectRoute: UIButton!
     @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var emissionsLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
     
     weak var tripAddedDelegate: TripAddedDelegate? // Update the table view of all saved routes
     
@@ -25,6 +28,7 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     
     var originCoordinate: CLLocationCoordinate2D!
     var destinationCoordinate: CLLocationCoordinate2D!
+    var destinationName: String?
     var transportMode: String = ""
     var totalCarbonEmission: Double = 0.00
     var carbonEmissionLDV = 2.45
@@ -155,55 +159,49 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Using SwiftyJSON to manage and parse the returned JSON directions to find distance and thereby calculate the CO2 emissions; also saving down the polylines to a variable so it can be stored and drawn out at a future date.
     func calculateRouteDistanceAndEmissions(from json: [String: Any], forTransport transportMode: String) -> Double? {
-            guard let routes = json["routes"] as? [[String: Any]] else {
-                print("Routes not found in JSON")
-                return nil
+        guard let routes = json["routes"] as? [[String: Any]] else {
+            print("Routes not found in JSON")
+            return nil
+        }
+            
+        var totalDistance = 0.0
+        var totalEmissions = 0.0
+        var totalDuration = 0
+            
+        for route in routes {
+            guard let legs = route["legs"] as? [[String: Any]], let firstLeg = legs.first else {
+                print("No legs found in route")
+                continue
             }
-            
-            var totalDistance = 0.0
-            var totalEmissions = 0.0
-            var totalDuration = 0
-            
-            for route in routes {
-                guard let legs = route["legs"] as? [[String: Any]], let firstLeg = legs.first else {
-                    print("No legs found in route")
+                
+            // Calculate total distance and duration of the journey
+            if let distanceDict = firstLeg["distance"] as? [String: Any], let distanceValue = distanceDict["value"] as? Double, let durationDict = firstLeg["duration"] as? [String: Any], let durationValue = durationDict["value"] as? Int {
+                totalDistance += distanceValue
+                totalDuration += durationValue
+            } else {
+                print("Invalid distance or duration format")
+                continue
+            }
+                
+            // Iterate through each leg
+            for leg in legs {
+                guard let steps = leg["steps"] as? [[String: Any]] else {
+                    print("No steps found in leg")
                     continue
                 }
                 
-                // Calculate total distance and duration of the journey
-                if let distanceDict = firstLeg["distance"] as? [String: Any], let distanceValue = distanceDict["value"] as? Double,
-                    let durationDict = firstLeg["duration"] as? [String: Any], let durationValue = durationDict["value"] as? Int {
-                    totalDistance += distanceValue
-                    totalDuration += durationValue
-                } else {
-                    print("Invalid distance or duration format")
-                    continue
-                }
-                
-                // Iterate through each leg
-                for leg in legs {
-                    guard let steps = leg["steps"] as? [[String: Any]] else {
-                        print("No steps found in leg")
+                // Iterate through each step in the leg
+                for step in steps {
+                    guard let distanceDict = step["distance"] as? [String: Any], let distanceValue = distanceDict["value"] as? Double, let travelMode = step["travel_mode"] as? String else {
+                        print("Invalid step format")
                         continue
                     }
                     
-                    // Iterate through each step in the leg
-                    for step in steps {
-                        guard let distanceDict = step["distance"] as? [String: Any],
-                              let distanceValue = distanceDict["value"] as? Double,
-                              let travelMode = step["travel_mode"] as? String else {
-                            print("Invalid step format")
-                            continue
-                        }
-                        
-                        // Calculate emissions for non-walking and non-cycling steps
-                        if travelMode != "WALKING" && travelMode != "CYCLING" {
-                            var emissionFactor: Double
-                            if let transitDetails = step["transit_details"] as? [String: Any],
-                                let modeOfTransport = transitDetails["line"] as? [String: Any],
-                                let vehicleType = modeOfTransport["vehicle"] as? [String: Any],
-                                let mode = vehicleType["type"] as? String {
-                                emissionFactor = calculateCarbonEmissions(for: mode)
+                    // Calculate emissions for non-walking and non-cycling steps
+                    if !(travelMode == "WALKING" || travelMode == "CYCLING") {
+                        var emissionFactor: Double
+                        if let transitDetails = step["transit_details"] as? [String: Any], let modeOfTransport = transitDetails["line"] as? [String: Any], let vehicleType = modeOfTransport["vehicle"] as? [String: Any], let mode = vehicleType["type"] as? String {
+                            emissionFactor = calculateCarbonEmissions(for: mode)
                         } else {
                             // If no transit vehicle type found, assume a car
                             emissionFactor = calculateCarbonEmissions(for: "DRIVING")
@@ -214,13 +212,19 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
                 }
             }
         }
-            
+        // Update UI labels with calculated values
+        DispatchQueue.main.async { [weak self] in
+            self?.distanceLabel.text = String(format: "%.2f km", totalDistance/1000)
+            self?.durationLabel.text = String(format: "%d minutes", totalDuration/60)
+            self?.emissionsLabel.text = String(format: "%.2f gCO2/km", totalEmissions)
+        }
         print("Distance: \(totalDistance)m")
         print("Duration: \(totalDuration / 60) minutes")
         print("Emissions: \(totalEmissions)gCO2/km")
             
         return totalEmissions
     }
+    
     // MARK: Calculate carbon emissions of light-duty vehicles (driving)
     func calculateCarbonEmissions(for mode: String) -> Double {
         // Constants for carbon emissions factors (gCO2/km)
@@ -242,6 +246,7 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    // MARK: Save the values to a local Realm DB (can be moved to cloud in future)
     @IBAction func saveRoute (_ sender: Any) {
         let realm = RealmManager.shared.getRealm()
         
@@ -266,15 +271,7 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
         
         // Create a new Emission object
         let emission = Emission()
-        // Set the emission value, date, and link it to the trip
-        if totalCarbonEmission != 0.0 {
-            emission.value = Double(totalCarbonEmission)
-        } else {
-            print("Total carbon emission is nil")
-            // Handle this error case, such as setting a default value or displaying an error message
-            // For now, let's set a default value of 0.0
-            emission.value = 0.0
-        }
+        emission.value = Double(totalCarbonEmission)
         emission.date = Date()
         trip.emissions.append(emission)
         
@@ -305,8 +302,68 @@ class RoutesViewController: UIViewController, CLLocationManagerDelegate {
             realm.add(emission)
         }
         
+        readDataFromRealm()
         tripAddedDelegate?.didAddTrip(trip)
         print("Route saved successfully")
+        
+//        deleteRealmDatabase()
+//        print("Route deleted successfully")
+    }
+}
+
+// Print and read existing data - for debug purposes, not functional in app
+func readDataFromRealm() {
+    do {// Open the default Realm
+        let realm = RealmManager.shared.getRealm()
+            
+        // Query Realm for all Person objects
+        let trips = realm.objects(Trip.self)
+        for trip in trips {
+            print("Trip ID: \(trip.id)")
+            if let origin = trip.origin {
+                print("Origin: \(origin.name) - Lat: \(origin.latitude), Lon: \(origin.longitude)")
+            }
+            if let destination = trip.destination {
+                print("Destination: \(destination.name) - Lat: \(destination.latitude), Lon: \(destination.longitude)")
+            }
+            if let methodOfTravel = trip.methodOfTravel {
+                print("Method of Travel: \(methodOfTravel)")
+            }
+            print("Emissions:")
+            for emission in trip.emissions {
+                print("- Value: \(emission.value), Date: \(emission.date)")
+            }
+        }
+    } catch {
+        print("Error reading trips from Realm: \(error.localizedDescription)")
+    }
+}
+
+// Delete entire Realm DB - debug purpose
+func deleteRealmDatabase() {
+    // Get the default Realm configuration
+    let realmConfig = Realm.Configuration.defaultConfiguration
+
+    // Get the URL to the default Realm file
+    if let realmURL = realmConfig.fileURL {
+        do {
+            // Get the parent directory of the Realm file
+            let realmParentDirectory = realmURL.deletingLastPathComponent()
+            
+            // Delete all files with .realm extension in the parent directory
+            let realmFiles = try FileManager.default.contentsOfDirectory(at: realmParentDirectory, includingPropertiesForKeys: nil, options: [])
+            for file in realmFiles {
+                if file.pathExtension == "realm" {
+                    try FileManager.default.removeItem(at: file)
+                }
+            }
+            
+            print("Realm database deleted successfully.")
+        } catch {
+            print("Error deleting Realm database: \(error.localizedDescription)")
+        }
+    } else {
+        print("Realm file URL is nil.")
     }
 }
 

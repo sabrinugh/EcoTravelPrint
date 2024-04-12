@@ -36,6 +36,7 @@ class Trip: Object {
     // Emissions attached to a given trip
     @Persisted var emissions: List<Emission>
     @Persisted var destination: Location?
+    @Persisted var destinationName: String?
     @Persisted var origin: Location?
     @Persisted var methodOfTravel: String?
     
